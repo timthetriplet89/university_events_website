@@ -209,9 +209,6 @@
 		  this.loadData();
     },
     mounted() {
-      // let recaptchaScript = document.createElement('script')
-      // recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js')
-      // document.head.appendChild(recaptchaScript)
       let calendarScript = document.createElement('script');
       calendarScript.setAttribute('src', 'https://addevent.com/libs/atc/1.6.1/atc.min.js')
       document.head.appendChild(calendarScript);
