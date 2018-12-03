@@ -14,38 +14,11 @@
         </select>
     </div>
 
-    <social-sharing url="https://vuejs.org/"
-                      title="The Progressive JavaScript Framework"
-                      description="Intuitive, Fast and Composable MVVM for building interactive interfaces."
-                      quote="Vue is a progressive framework for building user interfaces."
-                      hashtags="vuejs,javascript,framework"
-                      twitter-user="vuejs"
-                      inline-template>
-      <div>
-        <network network="facebook">
-          <i class="fa fa-facebook"></i> Facebook
-        </network>
-      </div>
-    </social-sharing>
-
-    <!-- Button code -->
-    <div title="Add to Calendar" class="addeventatc">
-        Add to Calendar
-        <span class="start">12/07/2018 08:00 AM</span>
-        <span class="end">12/07/2018 10:00 AM</span>
-        <span class="timezone">America/Los_Angeles</span>
-        <span class="title">Summary of the event</span>
-        <span class="description">Description of the event</span>
-        <span class="location">Location of the event</span>
-    </div>
-
-    <!-- start off showing all events -->
-		<v-container fluid grid-list-lg>
+    <div v-show="action === 'all'">
+		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
-			  <!-- this contains the list of event cards  -->
-				<!-- what is v-flex? -->
 				<v-flex xs12 v-for="(event, eventIndex) in eventData" :key="eventIndex">
-					<v-card :color="event.feedColor">
+					<v-card :color="event.color">
 						<v-card-title primary-title>
 							<div class="headline">{{event.title}}</div>
 								</v-card-title>
@@ -54,65 +27,87 @@
                         <div slot="header"> {{ event.dateDisplay }} </div>
                         <v-card>
                           <v-card-text> {{event.content }} </v-card-text>
-                          <social-sharing url="https://vuejs.org/"
-                          title="The Progressive JavaScript Framework"
-                          description="Intuitive, Fast and Composable MVVM for building interactive interfaces."
-                          quote="Vue is a progressive framework for building user interfaces."
-                          hashtags="vuejs,javascript,framework"
-                          twitter-user="vuejs"
-                          inline-template>
+                          <social-sharing v-bind:url="event.link" inline-template>
                             <div>
                               <network network="facebook">
-                              <i class="fa fa-facebook"></i> Facebook
+                              <p>Share</p>
                               </network>
                             </div>
                            </social-sharing>
 
-                          <!-- Button code -->
-                          <div title="Add to Calendar" class="addeventatc">
-                              Add to Calendar
-                              <span class="start">12/07/2018 08:00 AM</span>
-                              <span class="end">12/07/2018 10:00 AM</span>
-                              <span class="timezone">America/Los_Angeles</span>
-                              <span class="title">Summary of the event</span>
-                              <span class="description">Description of the event</span>
-                              <span class="location">Location of the event</span>
-                          </div>
+                          <add-to-calendar :title="event.title" 
+                                      :start="new Date(event.pubDate)"
+                                      :end="new Date((new Date(event.pubDate)).setHours((new Date(event.pubDate)).getHours() + 1))"
+                                      :details="event.description" 
+                                      inline-template> 
+                            <div>
+                              <google-calendar id="google-calendar">
+                                <p>Add to Google calendar</p>
+                              </google-calendar>
+                            </div>
+                          </add-to-calendar>
+
                         </v-card>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
 
-									<!-- <v-card-text>
-											{{event.content }}
-										</v-card-text> -->
-
-										<!-- <v-card-actions>
-											<v-btn flat target="_new" :href="event.link">Read More...</v-btn>
-										</v-card-actions> -->
 									</v-card>
 								</v-flex>
 								
 							</v-layout>
 						</v-container>
+    </div>
 
     <!-- filter by date -->
     <div v-show="action === 'date'">
       <datepicker v-model="dateSelection" name="uniquename" @input="filterByDate"></datepicker>     
-    </div>
-    
-    <div class="events">
-      <div class="card" v-for="(event, eventIndex) in eventsFilteredDate" :key="eventIndex">
-          <h4>{{ event.title }}</h4>
-          <p>{{ event.content }}</p>
-          <p>{{ event.category }}</p>          
-          <p>{{ event.pubDate }}</p>
-      </div>
+		 <v-container fluid grid-list-lg>
+			<v-layout row wrap>
+				<v-flex xs12 v-for="(event, eventIndex) in eventsFilteredDate" :key="eventIndex">
+					<v-card :color="event.color">
+						<v-card-title primary-title>
+							<div class="headline">{{event.title}}</div>
+								</v-card-title>
+                    <v-expansion-panel>
+                      <v-expansion-panel-content>
+                        <div slot="header"> {{ event.dateDisplay }} </div>
+                        <v-card>
+                          <v-card-text> {{event.content }} </v-card-text>
+                          <social-sharing v-bind:url="event.link" inline-template>
+                            <div>
+                              <network network="facebook">
+                              <p>Share</p>
+                              </network>
+                            </div>
+                           </social-sharing>
+
+                          <add-to-calendar :title="event.title" 
+                                      :start="new Date(event.pubDate)"
+                                      :end="new Date((new Date(event.pubDate)).setHours((new Date(event.pubDate)).getHours() + 1))"
+                                      :details="event.description" 
+                                      inline-template> 
+                            <div>
+                              <google-calendar id="google-calendar">
+                                <p>Add to Google calendar</p>
+                              </google-calendar>
+                            </div>
+                          </add-to-calendar>
+
+                        </v-card>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+
+									</v-card>
+								</v-flex>
+								
+							</v-layout>
+						</v-container>
     </div>
 
     <!-- filter by category -->
     <div class="dataFilter" v-show="action === 'category'">
       <select v-on:change="filterByCategory" v-model="categorySelection">
-            <option disabled value=""></option>
+            <option disabled value="">Select category</option>
             <option value="Activities/Service">Service</option>
             <option value="Activities/Sports">Sports</option>
             <option value="Activities/Talent">Talent</option>
@@ -123,14 +118,48 @@
             <option value="Activities/Life Skills">Life Skills</option>
       </select>      
 
-      <div class="events">  
-        <div class="card" v-for="(event, eventIndex) in eventsFilteredCategory" :key="eventIndex">
-          <h4>{{ event.title }}</h4>
-          <p>{{ event.content }}</p>
-          <p>{{ event.category }}</p>          
-          <p>{{ event.pubDate }}</p>
-        </div>  
-      </div>   
+		 <v-container fluid grid-list-lg>
+			<v-layout row wrap>
+
+				<v-flex xs12 v-for="(event, eventIndex) in eventsFilteredCategory" :key="eventIndex">
+					<v-card :color="event.color">
+						<v-card-title primary-title>
+							<div class="headline">{{event.title}}</div>
+								</v-card-title>
+                    <v-expansion-panel>
+                      <v-expansion-panel-content>
+                        <div slot="header"> {{ event.dateDisplay }} </div>
+                        <v-card>
+                          <v-card-text> {{event.content }} </v-card-text>
+                          <social-sharing v-bind:url="event.link" inline-template>
+                            <div>
+                              <network network="facebook">
+                              <p>Share</p>
+                              </network>
+                            </div>
+                           </social-sharing>
+
+                          <add-to-calendar :title="event.title" 
+                                      :start="new Date(event.pubDate)"
+                                      :end="new Date((new Date(event.pubDate)).setHours((new Date(event.pubDate)).getHours() + 1))"
+                                      :details="event.description" 
+                                      inline-template> 
+                            <div>
+                              <google-calendar id="google-calendar">
+                                <p>Add to Google calendar</p>
+                              </google-calendar>
+                            </div>
+                          </add-to-calendar>
+
+                        </v-card>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+
+									</v-card>
+								</v-flex>
+								
+							</v-layout>
+						</v-container>
     </div>
 
     <!-- filter by keyword -->
@@ -140,17 +169,50 @@
         <button type="submit">Search</button>  <!-- @click="filterBySearch()" -->
       </form> 
 
-      <div class="events">  
-        <div class="card" v-for="(event, eventIndex) in eventsFilteredSearch" :key="eventIndex"> 
-          <h4>{{ event.title }}</h4>
-          <p>{{ event.content }}</p>
-          <p>{{ event.category }}</p>          
-          <p>{{ event.pubDate }}</p>
-        </div>  
-      </div>    
-    </div>
+		 <v-container fluid grid-list-lg>
+			<v-layout row wrap>
+				<v-flex xs12 v-for="(event, eventIndex) in eventsFilteredSearch" :key="eventIndex">
+					<v-card :color="event.color">
+						<v-card-title primary-title>
+							<div class="headline">{{event.title}}</div>
+								</v-card-title>
+                    <v-expansion-panel>
+                      <v-expansion-panel-content>
+                        <div slot="header"> {{ event.dateDisplay }} </div>
+                        <v-card>
+                          <v-card-text> {{event.content }} </v-card-text>
+                          <social-sharing v-bind:url="event.link" inline-template>
+                            <div>
+                              <network network="facebook">
+                              <p>Share</p>
+                              </network>
+                            </div>
+                           </social-sharing>
+
+                          <add-to-calendar :title="event.title" 
+                                      :start="new Date(event.pubDate)"
+                                      :end="new Date((new Date(event.pubDate)).setHours((new Date(event.pubDate)).getHours() + 1))"
+                                      :details="event.description" 
+                                      inline-template> 
+                            <div>
+                              <google-calendar id="google-calendar">
+                                <p>Add to Google calendar</p>
+                              </google-calendar>
+                            </div>
+                          </add-to-calendar>
+
+                        </v-card>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+
+									</v-card>
+								</v-flex>
+								
+							</v-layout>
+						</v-container>
 
   </div>
+</div>  
 </template>
 
 <script>
@@ -171,6 +233,9 @@
   // https://stackoverflow.com/questions/41076828/
   import Vue from 'vue'
   Vue.use(SocialSharing);
+
+  var AddToCalendar = require('vue-add-to-calendar');
+  Vue.use(AddToCalendar);
 
   export default {
     data () {
@@ -205,17 +270,21 @@
     }, 
     created() {
 		  // do single file components use the created hook?  
-		  // what is 'this', at this point in the code?
+		  // what is 'this' at this point in the code?
 		  this.loadData();
     },
     mounted() {
       let calendarScript = document.createElement('script');
+      // let calendarScript2 = document.createElement('script');
       calendarScript.setAttribute('src', 'https://addevent.com/libs/atc/1.6.1/atc.min.js')
+      // calendarScript2.setAttribute('src', '//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5be25a4f49650ba7')
       document.head.appendChild(calendarScript);
+      // document.head.appendChild(calendarScript2);
     },
     methods: { 
       changeFilter() { 
         this.action = this.filterSelection; 
+        console.log("filterSection = " + this.filterSelection);
       }, 
       filterByDate() { 
         var date_input_moment;
@@ -230,7 +299,7 @@
           console.log(event.pubDate)
           console.log(date_input_moment)
           if (event.pubDate.isSame(date_input_moment, 'day'))
-            this.eventsFilteredDate.push({title: event.title, content: event.content, category: event.categories[0], pubDate: event.pubDate });
+            this.eventsFilteredDate.push({title: event.title, content: event.content, category: event.categories[0], pubDate: event.pubDate, dateDisplay: event.dateDisplay, color: event.color, link: event.link });
         }
       }, 
       filterByCategory() {
@@ -241,7 +310,7 @@
         for(var event of this.eventData) {
           //console.log(event.categories[0]);
           if (event.categories[0] === this.categorySelection) {
-            this.eventsFilteredCategory.push({title: event.title, content: event.content, category: event.categories[0], pubDate: event.pubDate });
+            this.eventsFilteredCategory.push({title: event.title, content: event.content, category: event.categories[0], pubDate: event.pubDate, dateDisplay: event.dateDisplay, color: event.color, link: event.link });
           }
         }
       },
@@ -259,17 +328,10 @@
             eventText = event.title + ' ' + event.pubDate + ' ' + event.content;
             // add way tosearch all event fields
             if (eventText.toUpperCase().includes(nKeyword.toUpperCase())) {
-              this.eventsFilteredSearch.push({title: event.title, content: event.content, category: event.category, pubDate: event.pubDate });
+              this.eventsFilteredSearch.push({title: event.title, content: event.content, category: event.category, pubDate: event.pubDate, dateDisplay: event.dateDisplay, color: event.color, link: event.link });
             }
           }
         }
-
-        // console.log(this.eventsFilteredSearch);
-        // clear out this.search.keyword?
-        // otherwise you hit an empty search box
-        // and get same search results...
-        // display relevant events
-
       },
       loadData() {
 			  this.urlError = false;
@@ -287,8 +349,8 @@
 
 					// ok, add the items (but we append the url as a fk so we can filter later)
 					res.feed.items.forEach(item => {
-						item.feedPk = this.addURL;
-            item.feedColor = res.feed.color;
+						item.feedPk = this.addURL;           // What is this addURL?
+            item.color = res.feed.color;
             item.pubDate = moment(item.pubDate); 
             item.dateDisplay = moment(item.pubDate).format('MMM Do YY');
             console.log(item);              
