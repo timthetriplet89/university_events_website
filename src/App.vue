@@ -172,12 +172,22 @@
 						</v-container>
     </div>
 
+
+
+
+
     <!-- filter by keyword -->
     <div v-show="action === 'search'">
-      <form class="input" @submit.prevent="filterBySearch">
+
+    <div class="row justify-content-center margin-top">
+    <div>
+
+      <form class="input width-auto form-control" @submit.prevent="filterBySearch">
         <input placeholder="keyword" v-model="search.keyword"/>
         <button type="submit">Search</button>  <!-- @click="filterBySearch()" -->
       </form> 
+    </div> 
+    </div>
 
 		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
