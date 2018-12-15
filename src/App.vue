@@ -4,8 +4,8 @@
     <h1>Event List</h1>
 
     <!-- choose filter -->
-    <div class="input">
-        <select v-on:change="changeFilter" v-model="filterSelection">
+    <div>
+        <select class="input" v-on:change="changeFilter" v-model="filterSelection">
           <option disabled value="">Select Filter</option>
           <option value="all">All</option>
           <option value="search">search</option>
@@ -105,8 +105,8 @@
     </div>
 
     <!-- filter by category -->
-    <div class="dataFilter" v-show="action === 'category'">
-      <select v-on:change="filterByCategory" v-model="categorySelection">
+    <div v-show="action === 'category'">
+      <select class="input" v-on:change="filterByCategory" v-model="categorySelection">
             <option disabled value="">Select category</option>
             <option value="Activities/Service">Service</option>
             <option value="Activities/Sports">Sports</option>
@@ -163,8 +163,8 @@
     </div>
 
     <!-- filter by keyword -->
-    <div class="input" v-show="action === 'search'">
-      <form @submit.prevent="filterBySearch">
+    <div v-show="action === 'search'">
+      <form class="input" @submit.prevent="filterBySearch">
         <input placeholder="keyword" v-model="search.keyword"/>
         <button type="submit">Search</button>  <!-- @click="filterBySearch()" -->
       </form> 
@@ -417,19 +417,11 @@
 }
 
 .input {
-  margin: 28px
-}
-
-.input {
-  margin: 28px
+  margin: 1rem;
 }
 
 .dataFilter {
   margin-top: 1rem auto;
-}
-
-input {
-  margin-right: 1rem;
 }
 
 button.delete  {
