@@ -108,9 +108,14 @@
 						</v-container>
     </div>
 
+
+
     <!-- filter by category -->
     <div v-show="action === 'category'">
+    <div class="row justify-content-center margin-top">
+    <div>
       <select class="input width-auto form-control" v-on:change="filterByCategory" v-model="categorySelection">
+            <!-- input -->
             <option disabled value="">Select category</option>
             <option value="Activities/Service">Service</option>
             <option value="Activities/Sports">Sports</option>
@@ -120,8 +125,9 @@
             <option value="Activities/Outdoor">Outdoor</option>
             <option value="Activities/Wellness">Wellness</option>
             <option value="Activities/Life Skills">Life Skills</option>
-      </select>      
-
+      </select>   
+    </div>   
+    </div>
 		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
 
