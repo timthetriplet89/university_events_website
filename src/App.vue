@@ -4,14 +4,18 @@
     <h1>Event List</h1>
 
     <!-- choose filter -->
+    <div class="row justify-content-center margin-top">
     <div>
-        <select class="input" v-on:change="changeFilter" v-model="filterSelection">
+      <!-- class="row justify-content-center" -->
+        <select class="width-auto form-control" v-on:change="changeFilter" v-model="filterSelection">
+          <!-- input -->
           <option disabled value="">Select Filter</option>
           <option value="all">All</option>
           <option value="search">search</option>
           <option value="category">category</option>
           <option value="date">date</option>
         </select>
+    </div>
     </div>
 
     <div v-show="action === 'all'">
@@ -60,7 +64,7 @@
 
     <!-- filter by date -->
     <div v-show="action === 'date'">
-      <datepicker v-model="dateSelection" name="uniquename" @input="filterByDate"></datepicker>     
+      <datepicker v-model="dateSelection" name="uniquename" @input="filterByDate" placeholder="Select date"></datepicker>     
 		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
 				<v-flex xs12 v-for="(event, eventIndex) in eventsFilteredDate" :key="eventIndex">
@@ -106,7 +110,7 @@
 
     <!-- filter by category -->
     <div v-show="action === 'category'">
-      <select class="input" v-on:change="filterByCategory" v-model="categorySelection">
+      <select class="input width-auto form-control" v-on:change="filterByCategory" v-model="categorySelection">
             <option disabled value="">Select category</option>
             <option value="Activities/Service">Service</option>
             <option value="Activities/Sports">Sports</option>
@@ -236,6 +240,11 @@
 
   var AddToCalendar = require('vue-add-to-calendar');
   Vue.use(AddToCalendar);
+
+  import BootstrapVue from 'bootstrap-vue'
+  Vue.use(BootstrapVue);
+  import 'bootstrap/dist/css/bootstrap.css'
+  import 'bootstrap-vue/dist/bootstrap-vue.css'
 
   export default {
     data () {
