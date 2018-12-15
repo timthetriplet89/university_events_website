@@ -6,11 +6,11 @@
 
     <!-- choose filter -->
         
-    <div class="row justify-content-center margin-top">
+    <div class="row justify-content-center">
     <div> <!-- class="input" -->
         <!-- class="form-control" -->
-        <h6 class="thick">Filter</h6>
-        <select class="width-auto form-control" v-on:change="changeFilter" v-model="filterSelection">
+        <span>Filter</span>
+        <select class="form-control" v-on:change="changeFilter" v-model="filterSelection">
           <option disabled value="">Select</option>
           <option value="all">All</option>
           <option value="search">search</option>
@@ -66,10 +66,7 @@
 
     <!-- filter by date -->
     <div v-show="action === 'date'">
-      <datepicker v-model="dateSelection" name="uniquename" @input="filterByDate" wrapper-class="fullscreen-when-on-mobile" class="margin-top form-control"></datepicker>  
-      <!-- placeholder="Click here to select" -->
-      <!-- form-control input  -->
-      <!-- btn btn-outline-secondary -->
+      <datepicker v-model="dateSelection" name="uniquename" @input="filterByDate" placeholder="Select Date"  wrapper-class="fullscreen-when-on-mobile">Select Date</datepicker>  
       <!-- :calendar-button="true"
   calendar-button-icon="calendar" -->
 		 <v-container fluid grid-list-lg>
@@ -115,11 +112,25 @@
 						</v-container>
     </div>
 
+
+        <div class="row justify-content-center">
+    <div v-show="action === 'all'"> <!-- class="input" -->
+        <!-- class="form-control" -->
+        <span class="margin-top">Filter</span>
+        <select class="form-control" v-on:change="changeFilter" v-model="filterSelection">
+          <option disabled value="">Select</option>
+          <option value="all">All</option>
+          <option value="search">search</option>
+          <option value="category">category</option>
+          <option value="date">date</option>
+        </select>
+    </div>
+    </div>
+
     <!-- filter by category -->
-    <div class="row justify-content-center margin-top">
+    <div class="row justify-content-center">
     <div v-show="action === 'category'">
-      <!-- <span>Category</span>  -->
-      <!-- id="element-left" -->  
+      <span>Category</span> <!-- id="element-left" -->  
       <select class="form-control input" v-on:change="filterByCategory" v-model="categorySelection"> <!-- id="element-right" -->
             <option disabled value="">Select category</option>
             <option value="Activities/Service">Service</option>
@@ -179,13 +190,12 @@
     <!-- </div> -->
 
     <!-- filter by keyword -->
-    <div class="row justify-content-center margin-negative">
     <div class="input" v-show="action === 'search'">
       <form @submit.prevent="filterBySearch">
-        <input class="form-control width-auto" placeholder="enter keyword" v-model="search.keyword"/>
-        <button class="btn btn-outline-primary margin-top-small" type="submit">Search</button>  <!-- @click="filterBySearch()" -->
+        <input placeholder="keyword" v-model="search.keyword"/>
+        <button type="submit">Search</button>  <!-- @click="filterBySearch()" -->
       </form> 
-    </div>
+
 		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
 				<v-flex xs12 v-for="(event, eventIndex) in eventsFilteredSearch" :key="eventIndex">
@@ -316,9 +326,6 @@
     methods: { 
       changeFilter() { 
         this.action = this.filterSelection; 
-        eventsFilteredDate = [];
-        eventsFilteredCategory = [];
-        eventsFilteredSearch = [];
         console.log("filterSection = " + this.filterSelection);
       }, 
       filterByDate() { 
@@ -491,29 +498,7 @@ button {
   margin-right: 1rem;
 }
 
-.margin-top {
-  margin-top: 1rem;
-}
 
-.margin-top-small {
-  margin-top: 0.5rem;
-}
-
-.margin-negative {
-  margin-top: -4rem;
-}
-
-.width-auto {
-  width: auto;
-}
-
-.thick {
-  font-weight: bold;
-}
-
-.dp {
-    border: 1px solid #000;
-}
 
 // #element-left.input {display:inline-block;margin-right:1rem; width:30%} 
 
