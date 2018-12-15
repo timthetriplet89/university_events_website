@@ -62,9 +62,19 @@
 						</v-container>
     </div>
 
+
+
     <!-- filter by date -->
     <div v-show="action === 'date'">
-      <datepicker v-model="dateSelection" name="uniquename" @input="filterByDate" placeholder="Select date"></datepicker>     
+
+    <div class="row justify-content-center margin-top">
+    <div>
+
+      <datepicker class="input width-auto form-control" v-model="dateSelection" name="uniquename" @input="filterByDate" placeholder="Select date"></datepicker>   
+
+    </div>
+    </div> 
+
 		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
 				<v-flex xs12 v-for="(event, eventIndex) in eventsFilteredDate" :key="eventIndex">
