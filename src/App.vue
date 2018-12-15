@@ -1,17 +1,25 @@
 <template>
 
   <div id="app">
-    <h1>Event List</h1>
+
+    <h3>Campus Events</h3>
 
     <!-- choose filter -->
-    <div class="input">
-        <select v-on:change="changeFilter" v-model="filterSelection">
-          <option disabled value="">Select Filter</option>
+        
+    <div class="justify-content-center margin-top width-50">
+      <!-- row -->
+    <!-- <div>  -->
+      <!-- class="input" -->
+        <!-- class="form-control" -->
+        <h6 class="thick">Filter</h6>
+        <select class="row width-auto form-control" v-on:change="changeFilter" v-model="filterSelection">
+          <option disabled value="">Select</option>
           <option value="all">All</option>
           <option value="search">search</option>
           <option value="category">category</option>
           <option value="date">date</option>
         </select>
+    <!-- </div> -->
     </div>
 
     <div v-show="action === 'all'">
@@ -58,9 +66,17 @@
 						</v-container>
     </div>
 
+    
     <!-- filter by date -->
-    <div v-show="action === 'date'">
-      <datepicker v-model="dateSelection" name="uniquename" @input="filterByDate"></datepicker>     
+    <div v-show="action === 'date'" class="margin-top">
+    <div class="row justify-content-center">
+      <datepicker v-model="dateSelection" name="uniquename" @input="filterByDate" wrapper-class="fullscreen-when-on-mobile" placeholder="Click here to select" class="form-control"></datepicker>  
+    </div>
+      <!-- margin-top -->
+      <!-- form-control input  -->
+      <!-- btn btn-outline-secondary -->
+      <!-- :calendar-button="true"
+  calendar-button-icon="calendar" -->
 		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
 				<v-flex xs12 v-for="(event, eventIndex) in eventsFilteredDate" :key="eventIndex">
@@ -105,8 +121,11 @@
     </div>
 
     <!-- filter by category -->
-    <div class="dataFilter" v-show="action === 'category'">
-      <select v-on:change="filterByCategory" v-model="categorySelection">
+    <div v-show="action === 'category'" class="margin-top-small">
+    <div class="row justify-content-center">
+      <!-- <span>Category</span>  -->
+      <!-- id="element-left" -->  
+      <select class="form-control input" v-on:change="filterByCategory" v-model="categorySelection"> <!-- id="element-right" -->
             <option disabled value="">Select category</option>
             <option value="Activities/Service">Service</option>
             <option value="Activities/Sports">Sports</option>
@@ -117,6 +136,7 @@
             <option value="Activities/Wellness">Wellness</option>
             <option value="Activities/Life Skills">Life Skills</option>
       </select>      
+    </div>
 
 		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
@@ -163,12 +183,14 @@
     </div>
 
     <!-- filter by keyword -->
-    <div class="input" v-show="action === 'search'">
+    <div v-show="action === 'search'">
+      <!-- class="margin-negative" -->
+    <div class="input row justify-content-center">
       <form @submit.prevent="filterBySearch">
-        <input placeholder="keyword" v-model="search.keyword"/>
-        <button type="submit">Search</button>  <!-- @click="filterBySearch()" -->
+        <input class="form-control width-auto" placeholder="enter keyword" v-model="search.keyword"/>
+        <button class="btn btn-outline-primary margin-top-small" type="submit">Search</button>  <!-- @click="filterBySearch()" -->
       </form> 
-
+    </div>
 		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
 				<v-flex xs12 v-for="(event, eventIndex) in eventsFilteredSearch" :key="eventIndex">
@@ -237,6 +259,14 @@
   var AddToCalendar = require('vue-add-to-calendar');
   Vue.use(AddToCalendar);
 
+  import BootstrapVue from 'bootstrap-vue'
+  Vue.use(BootstrapVue);
+
+  import 'bootstrap/dist/css/bootstrap.css'
+  import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+  // @import "~bootstrap/dist/css/bootstrap";
+
   export default {
     data () {
       return {
@@ -265,7 +295,13 @@
 			  urlError:false,
 			  urlRules:[],
 			  feeds:[],
-			  selectedFeed:null
+			  selectedFeed:null,
+        filterOptions: [
+          { title: 'Category' },
+          { title: 'Search' },
+          { title: 'Date' },
+          { title: 'All' }
+        ]
       } 
     }, 
     created() {
@@ -284,6 +320,9 @@
     methods: { 
       changeFilter() { 
         this.action = this.filterSelection; 
+        eventsFilteredDate = [];
+        eventsFilteredCategory = [];
+        eventsFilteredSearch = [];
         console.log("filterSection = " + this.filterSelection);
       }, 
       filterByDate() { 
@@ -385,7 +424,10 @@
   }
 </script>
       
-<style>
+<style lang="scss">
+@import './styles/custom-bootstrap.scss';
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -416,20 +458,33 @@
   margin: 1rem auto;
 }
 
-.input {
-  margin: 28px
-}
+// .input {
+//   margin: 28px
+// }
 
-.input {
-  margin: 28px
-}
+// .input {
+//   margin: 28px
+// }
 
 .dataFilter {
   margin-top: 1rem auto;
 }
 
-input {
-  margin-right: 1rem;
+.fullscreen-when-on-mobile {
+        @media (max-width: 767px) {
+            position: static;
+            /* .vdp-datepicker__calendar { */
+                position: fixed;
+                top: 50%;
+                left: 5%;
+                margin-top: -25%;
+                width: 90%;
+            /* } */
+        }
+    }
+
+.input {
+  margin: 1.3rem;
 }
 
 button.delete  {
@@ -439,4 +494,43 @@ button.delete  {
 button {
   margin-right: 1rem;
 }
+
+.margin-top {
+  margin-top: 1rem;
+}
+
+.margin-top-small {
+  margin-top: 0.5rem;
+}
+
+.margin-negative {
+  margin-top: -4rem;
+}
+
+.width-auto {
+  width: auto;
+}
+
+.thick {
+  font-weight: bold;
+}
+
+.dp {
+    border: 1px solid #000;
+}
+
+// #element-left.input {display:inline-block;margin-right:1rem; width:30%} 
+
+// #element-right.form-control {display:inline-block; width:30%} 
+
+//  .top { 
+//      width:70%;
+//     //  height:200px;
+//      position:absolute;
+//  }
+// .bottom {
+//     width:40%;
+//     // height:200px;
+// }
+
 </style>
