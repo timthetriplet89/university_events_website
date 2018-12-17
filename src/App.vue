@@ -51,7 +51,7 @@
                             </div>
                           </add-to-calendar>
 
-                        </v-card>
+                        </v-card>,
                       </v-expansion-panel-content>
                     </v-expansion-panel>
 
@@ -466,4 +466,9 @@ button.delete  {
 button {
   margin-right: 1rem;
 }
+
+select, input, input:active, input:focus, input:focus-within, input:hover, input:visited {
+    font-size: 16px!important;
+}
+
 </style>
