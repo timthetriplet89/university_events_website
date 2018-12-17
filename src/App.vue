@@ -1,8 +1,12 @@
 <template>
 
   <div id="app">
-    <h1>BYU-Idaho Events</h1>
 
+    <vue-headful
+            title="Campus Events"
+            description="mobile events website" />
+
+    <h1>BYU-Idaho Events</h1>
 
     <div class="row justify-content-center margin-top" >
     <div>
@@ -296,6 +300,14 @@
   Vue.use(BootstrapVue);
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+  import vueHeadful from 'vue-headful';
+
+  Vue.component('vue-headful', vueHeadful);
+
+//   new Vue({
+//     // your configuration
+// });
 
   // import Datetime from 'vue-datetime'
   // // You need a specific loader for CSS files
