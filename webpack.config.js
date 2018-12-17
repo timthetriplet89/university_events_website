@@ -21,8 +21,12 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          loaders: {
-          }
+          loaders:  [ // {
+            {
+              test: /\.s[a|c]ss$/,
+              loader: 'style!css!sass'
+            }
+           ] // }
           // other vue-loader options go here
         }
       },

@@ -10,7 +10,7 @@
         <select class="width-auto form-control" v-on:change="changeFilter" v-model="filterSelection">
           <!-- input -->
           <option disabled value="">Select Filter</option>
-          <option value="all">All</option>
+          <option value="all">Upcoming</option>
           <option value="search">search</option>
           <option value="category">category</option>
           <option value="date">date</option>
@@ -70,9 +70,13 @@
 
     <div class="row justify-content-center margin-top">
     <div>
+      
+      <datetime v-model="dateSelection" @input="filterByDate" class="input form-control"></datetime>
 
-      <datepicker class="input width-auto form-control" v-model="dateSelection" name="uniquename" @input="filterByDate" placeholder="Select date"></datepicker>   
+      <!-- <datepicker v-model="dateSelection" name="uniquename" @input="filterByDate" wrapper-class="fullscreen-when-on-mobile" class="input form-control" placeholder="Select date"></datepicker>   -->
 
+      <!-- class="input width-auto form-control" -->
+      <!-- wrapper-class="fullscreen-when-on-mobile" -->
     </div>
     </div> 
 
@@ -273,6 +277,12 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+  import Datetime from 'vue-datetime'
+  // You need a specific loader for CSS files
+  import 'vue-datetime/dist/vue-datetime.css'
+
+  Vue.use(Datetime)
+
   export default {
     data () {
       return {
@@ -426,7 +436,7 @@
   }
 </script>
       
-<style>
+<style lang="scss" scoped>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -473,8 +483,24 @@ button {
   margin-right: 1rem;
 }
 
-div, select, input, input:active, input:focus, input:focus-within, input:hover, input:visited {
+v-expansion-panel-content, select, input, input:active, input:focus, input:focus-within, input:hover, input:visited {
     font-size: 16px!important;
 }
+
+// .vdp-datepicker {
+    // &.fullscreen-when-on-mobile {
+    //   .fullscreen-when-on-mobile {
+    //     @media (max-width: 767px) {
+    //         position: static;
+    //         .vdp-datepicker__calendar {
+    //             position: fixed;
+    //             top: 50%;
+    //             left: 5%;
+    //             margin-top: -25%;
+    //             width: 90%;
+    //         }
+    //     }
+    // }
+// }
 
 </style>
