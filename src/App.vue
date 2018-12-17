@@ -3,6 +3,17 @@
   <div id="app">
     <h1>BYU-Idaho Events</h1>
 
+
+    <div class="row justify-content-center margin-top" >
+    <div>
+
+      <form class="margin-top width-auto form-control" @submit.prevent="filterBySearch" v-show="showSearchBar()">
+        <input placeholder="enter keyword" v-model="search.keyword"/>
+        <button type="submit">Search</button>  <!-- @click="filterBySearch()" -->
+      </form> 
+    </div> 
+    </div>
+
     <!-- choose filter -->
     <div class="row justify-content-center margin-top">
     <div>
@@ -15,9 +26,9 @@
           <option disabled value="">select</option>
           <option value="all" selected="selected">upcoming</option>
           <!-- <option value="all">Upcoming</option> -->
-          <option value="search">search</option>
           <option value="category">category</option>
           <option value="date">date</option>
+          <!-- <option value="search">search</option> -->
         </select>
     </div>
     </div>
@@ -37,9 +48,10 @@
                         <v-card>
                           <v-card-text> {{eventData[index].content }} </v-card-text>
                           <social-sharing v-bind:url="eventData[index].link" inline-template>
-                            <div>
+                            <div id="fb_link">
                               <network network="facebook">
-                              <p>Share</p>
+                                <!-- <i class="fa fa-facebook"></i>Share to Facebook -->
+                              <p>Share to Facebook</p>
                               </network>
                             </div>
                            </social-sharing>
@@ -102,7 +114,7 @@
                           <social-sharing v-bind:url="event.link" inline-template>
                             <div>
                               <network network="facebook">
-                              <p>Share</p>
+                              <p class="link">Share to Facebook</p>
                               </network>
                             </div>
                            </social-sharing>
@@ -167,7 +179,7 @@
                           <social-sharing v-bind:url="event.link" inline-template>
                             <div>
                               <network network="facebook">
-                              <p>Share</p>
+                              <p class="link">Share to Facebook</p>
                               </network>
                             </div>
                            </social-sharing>
@@ -201,16 +213,16 @@
 
     <!-- filter by keyword -->
     <div v-show="action === 'search'">
-
+<!-- 
     <div class="row justify-content-center margin-top">
     <div>
 
       <form class="input width-auto form-control" @submit.prevent="filterBySearch">
         <input placeholder="keyword" v-model="search.keyword"/>
-        <button type="submit">Search</button>  <!-- @click="filterBySearch()" -->
+        <button type="submit">Search</button>   @click="filterBySearch()" 
       </form> 
     </div> 
-    </div>
+    </div> -->
 
 		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
@@ -227,7 +239,7 @@
                           <social-sharing v-bind:url="event.link" inline-template>
                             <div>
                               <network network="facebook">
-                              <p>Share</p>
+                              <p class="link">Share to Facebook</p>
                               </network>
                             </div>
                            </social-sharing>
@@ -340,6 +352,9 @@
         this.action = this.filterSelection; 
         console.log("filterSection = " + this.filterSelection);
       }, 
+      showSearchBar() {
+			  return (this.action === 'all' || this.action === 'category');
+		  },
       filterByDate() { 
         var date_input_moment;
         console.log("filterByDate has been called");
@@ -415,7 +430,7 @@
 						item.feedPk = this.addURL;           // What is this addURL?
             item.color = res.feed.color;
             item.pubDate = moment(item.pubDate); 
-            item.dateDisplay = moment(item.pubDate).format('MMM Do YYYY');
+            item.dateDisplay = moment(item.pubDate).format('ddd MMM Do YYYY');
             console.log(item);              
 						this.eventData.push(item);      
 					});          
@@ -501,6 +516,10 @@ v-expansion-panel-content, select, input, input:active, input:focus, input:focus
 
 .margin-top {
   margin-top: 1rem;
+}
+
+#fb_link p {
+ color: #0000EE;
 }
 
 // .vdp-datepicker {
