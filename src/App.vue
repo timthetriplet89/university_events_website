@@ -21,17 +21,18 @@
     <div v-show="action === 'all'">
 		 <v-container fluid grid-list-lg>
 			<v-layout row wrap>
-				<v-flex xs12 v-for="(event, eventIndex) in eventData" :key="eventIndex">
-					<v-card :color="event.color">
+        <!-- <v-flex xs12 v-for="(event, eventIndex) in eventData" :key="eventIndex"> -->
+          <v-flex xs12 v-for="index in 18" :key="index">
+					<v-card :color="eventData[index].color">
 						<v-card-title primary-title>
-							<div class="headline">{{event.title}}</div>
+							<div class="headline">{{eventData[index].title}}</div>
 								</v-card-title>
                     <v-expansion-panel>
                       <v-expansion-panel-content>
-                        <div slot="header"> {{ event.dateDisplay }} </div>
+                        <div slot="header"> {{ eventData[index].dateDisplay }} </div>
                         <v-card>
-                          <v-card-text> {{event.content }} </v-card-text>
-                          <social-sharing v-bind:url="event.link" inline-template>
+                          <v-card-text> {{eventData[index].content }} </v-card-text>
+                          <social-sharing v-bind:url="eventData[index].link" inline-template>
                             <div>
                               <network network="facebook">
                               <p>Share</p>
@@ -39,10 +40,10 @@
                             </div>
                            </social-sharing>
 
-                          <add-to-calendar :title="event.title" 
-                                      :start="new Date(event.pubDate)"
-                                      :end="new Date((new Date(event.pubDate)).setHours((new Date(event.pubDate)).getHours() + 1))"
-                                      :details="event.description" 
+                          <add-to-calendar :title="eventData[index].title" 
+                                      :start="new Date(eventData[index].pubDate)"
+                                      :end="new Date((new Date(eventData[index].pubDate)).setHours((new Date(eventData[index].pubDate)).getHours() + 1))"
+                                      :details="eventData[index].description" 
                                       inline-template> 
                             <div>
                               <google-calendar id="google-calendar">
