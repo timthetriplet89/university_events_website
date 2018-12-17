@@ -7,10 +7,14 @@
     <div class="row justify-content-center margin-top">
     <div>
       <!-- class="row justify-content-center" -->
-        <select class="width-auto form-control" v-on:change="changeFilter" v-model="filterSelection">
+        <!-- <h6 class="thick">Filter</h6> -->
+
+        <label for="filter_select">Filter</label>
+        <select id="filter_select" class="width-auto form-control" v-on:change="changeFilter" v-model="filterSelection" required>
           <!-- input -->
-          <option disabled value="">Select Filter</option>
-          <option value="all">Upcoming</option>
+          <option disabled value="">select</option>
+          <option value="all" selected="selected">upcoming</option>
+          <!-- <option value="all">Upcoming</option> -->
           <option value="search">search</option>
           <option value="category">category</option>
           <option value="date">date</option>
@@ -70,13 +74,16 @@
 
     <div class="row justify-content-center margin-top">
     <div>
-      
-      <datetime v-model="dateSelection" @input="filterByDate" class="input form-control"></datetime>
+
+      <v-date-picker class="input" v-model="picker" @input="filterByDate"></v-date-picker>
+
+      <!-- <datetime v-model="dateSelection" @input="filterByDate" class="input form-control"></datetime> -->
 
       <!-- <datepicker v-model="dateSelection" name="uniquename" @input="filterByDate" wrapper-class="fullscreen-when-on-mobile" class="input form-control" placeholder="Select date"></datepicker>   -->
 
       <!-- class="input width-auto form-control" -->
       <!-- wrapper-class="fullscreen-when-on-mobile" -->
+
     </div>
     </div> 
 
@@ -129,9 +136,10 @@
     <div v-show="action === 'category'">
     <div class="row justify-content-center margin-top">
     <div>
-      <select class="input width-auto form-control" v-on:change="filterByCategory" v-model="categorySelection">
+      <label for="category_select" >Select</label>
+      <select id="category_select" class="width-auto form-control" v-on:change="filterByCategory" v-model="categorySelection">
             <!-- input -->
-            <option disabled value="">Select category</option>
+            <!-- <option disabled value="">Select category</option> -->
             <option value="Activities/Service">Service</option>
             <option value="Activities/Sports">Sports</option>
             <option value="Activities/Talent">Talent</option>
@@ -277,11 +285,10 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-  import Datetime from 'vue-datetime'
-  // You need a specific loader for CSS files
-  import 'vue-datetime/dist/vue-datetime.css'
-
-  Vue.use(Datetime)
+  // import Datetime from 'vue-datetime'
+  // // You need a specific loader for CSS files
+  // import 'vue-datetime/dist/vue-datetime.css'
+  // Vue.use(Datetime)
 
   export default {
     data () {
@@ -311,7 +318,8 @@
 			  urlError:false,
 			  urlRules:[],
 			  feeds:[],
-			  selectedFeed:null
+        selectedFeed:null, 
+        picker: new Date().toISOString().substr(0, 10)
       } 
     }, 
     created() {
@@ -337,8 +345,12 @@
         console.log("filterByDate has been called");
         this.action = 'date';
         this.eventsFilteredDate = [];
-        date_input_moment = moment(this.dateSelection);
-        console.log(this.dateSelection);
+        // date_input_moment = moment(this.dateSelection);
+        date_input_moment = moment(this.picker);    
+        console.log("picker")    
+        console.log(this.picker);
+        console.log("date_input_moment");
+        console.log(this.date_input_moment);
         for(var event of this.eventData) 
         {
           console.log("event comparisons")
@@ -485,6 +497,10 @@ button {
 
 v-expansion-panel-content, select, input, input:active, input:focus, input:focus-within, input:hover, input:visited {
     font-size: 16px!important;
+}
+
+.margin-top {
+  margin-top: 1rem;
 }
 
 // .vdp-datepicker {
