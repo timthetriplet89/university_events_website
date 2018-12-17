@@ -1,7 +1,7 @@
 <template>
 
   <div id="app">
-    <h1>Event List</h1>
+    <h1>BYU-Idaho Events</h1>
 
     <!-- choose filter -->
     <div class="row justify-content-center margin-top">
@@ -52,7 +52,7 @@
                             </div>
                           </add-to-calendar>
 
-                        </v-card>,
+                        </v-card>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
 
@@ -367,6 +367,11 @@
               this.eventsFilteredSearch.push({title: event.title, content: event.content, category: event.category, pubDate: event.pubDate, dateDisplay: event.dateDisplay, color: event.color, link: event.link });
             }
           }
+          if (this.eventsFilteredSearch.length == 0)
+          {
+            alert('No events found containing \'' + nKeyword + '\'');  
+            console.log('No events found containing \'' + nKeyword + '\'');         
+          }
         }
       },
       loadData() {
@@ -388,7 +393,7 @@
 						item.feedPk = this.addURL;           // What is this addURL?
             item.color = res.feed.color;
             item.pubDate = moment(item.pubDate); 
-            item.dateDisplay = moment(item.pubDate).format('MMM Do YY');
+            item.dateDisplay = moment(item.pubDate).format('MMM Do YYYY');
             console.log(item);              
 						this.eventData.push(item);      
 					});          
@@ -468,7 +473,7 @@ button {
   margin-right: 1rem;
 }
 
-select, input, input:active, input:focus, input:focus-within, input:hover, input:visited {
+div, select, input, input:active, input:focus, input:focus-within, input:hover, input:visited {
     font-size: 16px!important;
 }
 
