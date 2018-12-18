@@ -8,13 +8,22 @@
 
     <h1>BYU-Idaho Events</h1>
 
-    <div class="row justify-content-center margin-top" >
+    <div class="row justify-content-center" >
     <div>
 
-      <form class="margin-top width-auto form-control" @submit.prevent="filterBySearch" v-show="showSearchBar()">
-        <input placeholder="enter keyword" v-model="search.keyword"/>
-        <button type="submit">Search</button>  <!-- @click="filterBySearch()" -->
-      </form> 
+      <form class="margin-top " @submit.prevent="filterBySearch" v-show="showSearchBar()">
+        <!-- width-auto -->
+
+        <div class="row">
+          <!-- justify-content-center -->
+        <input class="form-control-custom inline " placeholder="Enter Keyword" v-model="search.keyword"/>
+        <button class="btn success inline" type="submit">Search</button>  
+        </div>
+        <!-- <b-button :size='sm' :variant='primary' type="submit">Search</b-button>   -->
+        <!-- @click="filterBySearch()" -->
+        <!-- border-input -->
+      </form>
+
     </div> 
     </div>
 
@@ -27,11 +36,11 @@
         <label for="filter_select">Filter</label>
         <select id="filter_select" class="width-auto form-control" v-on:change="changeFilter" v-model="filterSelection" required>
           <!-- input -->
-          <option disabled value="">select</option>
-          <option value="all" selected="selected">upcoming</option>
+          <option disabled value="">Select</option>
+          <option value="all" selected="selected">Upcoming</option>
           <!-- <option value="all">Upcoming</option> -->
-          <option value="category">category</option>
-          <option value="date">date</option>
+          <option value="category">Category</option>
+          <option value="date">Date</option>
           <!-- <option value="search">search</option> -->
         </select>
     </div>
@@ -365,7 +374,11 @@
         console.log("filterSection = " + this.filterSelection);
       }, 
       showSearchBar() {
-			  return (this.action === 'all' || this.action === 'category');
+        if (this.action !== 'date')
+          return true;
+        else 
+          return false;
+        // return (this.action === 'all' || this.action === 'category');
 		  },
       filterByDate() { 
         var date_input_moment;
@@ -532,6 +545,73 @@ v-expansion-panel-content, select, input, input:active, input:focus, input:focus
 
 #fb_link p {
  color: #0000EE;
+}
+
+.btn {
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  // padding: 0.1 rem 0.1 rem;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.success {
+  border-color: #4055B2; // #4CAF50;
+  color: #4055B2;
+}
+
+.border-input {
+  border: 1px solid gray;
+  border-radius: 4px;
+  margin: 10 rem;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.wrapper {
+  text-align: center;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.form-control-custom {
+  display: block;
+    width: auto;
+    height: calc(2.25rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-top-color: rgb(206, 212, 218);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgb(206, 212, 218);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgb(206, 212, 218);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgb(206, 212, 218);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    border-radius: 0.25rem;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
 }
 
 // .vdp-datepicker {
