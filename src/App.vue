@@ -16,7 +16,7 @@
 
         <div class="row">
           <!-- justify-content-center -->
-        <input class="form-control-custom inline " placeholder="Enter Keyword" v-model="search.keyword"/>
+        <input class="form-control-custom inline " placeholder="Enter keyword" v-model="search.keyword"/>
         <button class="btn success inline" type="submit">Search</button>  
         </div>
         <!-- <b-button :size='sm' :variant='primary' type="submit">Search</b-button>   -->
